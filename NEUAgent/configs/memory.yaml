@@ -1,0 +1,6 @@
+memory:
+  root_dir: ../memory
+  global_memory_dir: global
+  conversation_memory_dir: conversations
+  index_path: memory_index.json
+  max_memory_chars: 2000
