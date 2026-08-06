@@ -1,0 +1,23 @@
+{
+  "name": "naturalcc",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "naturalcc": "bun run src/index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^26.1.0",
+    "@types/react": "^19.2.14"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "commander": "^14.0.3",
+    "ink": "^7.0.3",
+    "ink-text-input": "^6.0.0",
+    "react": "^19.2.6"
+  }
+}
