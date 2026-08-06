@@ -1,0 +1,392 @@
+<style>
+  .spec-shell {
+    display: grid;
+    grid-template-columns: 238px minmax(0, 1fr);
+    height: 660px;
+    overflow: hidden;
+    border: 1px solid #303640;
+    border-radius: 18px;
+    background: #101216;
+    color: #e7e9ee;
+    box-shadow: 0 24px 80px rgba(0,0,0,.28);
+  }
+  .history {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 14px 10px;
+    border-right: 1px solid #292e37;
+    background: #171a20;
+  }
+  .history-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px 7px 13px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 760;
+  }
+  .logo-mark {
+    width: 25px;
+    height: 25px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    color: #160d09;
+    background: #df8a68;
+  }
+  .icon-square {
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border: 1px solid #343a45;
+    border-radius: 7px;
+    color: #919aaa;
+    background: #20242b;
+  }
+  .new-thread {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 10px;
+    margin-bottom: 9px;
+    border: 1px solid #383e49;
+    border-radius: 9px;
+    background: #22262e;
+    color: #f3f4f6;
+    font-size: 11px;
+  }
+  .history-search {
+    padding: 8px 10px;
+    border: 1px solid #2d333c;
+    border-radius: 8px;
+    color: #727c8c;
+    background: #1c2026;
+    font-size: 10px;
+  }
+  .history-list {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .group {
+    margin: 15px 8px 6px;
+    color: #646e7e;
+    font-size: 8px;
+    font-weight: 720;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .thread {
+    padding: 8px 9px;
+    margin-bottom: 3px;
+    border-radius: 8px;
+    color: #9da6b5;
+    font-size: 10px;
+  }
+  .thread span, .thread small { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .thread small { margin-top:3px; color:#626c7b; font-size:8px; }
+  .thread.active {
+    color: #f4f5f7;
+    background: #292e37;
+  }
+  .thread.active small { color:#a0a9b7; }
+  .profile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 7px 2px;
+    border-top: 1px solid #292e37;
+    color: #8993a2;
+    font-size: 9px;
+  }
+  .avatar {
+    width: 23px; height:23px; display:grid;place-items:center;border-radius:7px;background:#272c34;
+  }
+  .workbench {
+    min-width: 0;
+    display: grid;
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    position: relative;
+  }
+  .workbench-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 18px;
+    border-bottom: 1px solid #292e37;
+    background: #14171c;
+  }
+  .title h3 { margin:0; color:#f1f2f5; font-size:13px; }
+  .title p { margin:3px 0 0; color:#6f7988; font-size:9px; }
+  .head-actions { display:flex; align-items:center; gap:6px; }
+  .head-chip {
+    padding: 6px 8px;
+    border: 1px solid #343a45;
+    border-radius: 7px;
+    color: #a1aab8;
+    background: #1e2229;
+    font-size: 9px;
+  }
+  .budget-strip {
+    display: grid;
+    grid-template-columns: minmax(150px, 1fr) minmax(150px, 1fr) auto;
+    gap: 12px;
+    padding: 9px 18px;
+    border-bottom: 1px solid #252a32;
+    background: #15181d;
+  }
+  .meter-top {
+    display:flex;justify-content:space-between;margin-bottom:5px;color:#7e8897;font-size:8px;
+  }
+  .meter-top strong { color:#aeb6c2; }
+  .meter-bar { height:5px;border-radius:99px;background:#2a3038;overflow:hidden; }
+  .meter-bar i { display:block;height:100%;border-radius:inherit;background:#d98262; }
+  .run-details {
+    align-self:center;
+    padding:6px 9px;
+    border:1px solid #353b46;
+    border-radius:7px;
+    background:#20242b;
+    color:#aab2bf;
+    font-size:9px;
+  }
+  .conversation {
+    min-height: 0;
+    overflow: hidden;
+    padding: 22px max(22px, 8%);
+    background:
+      radial-gradient(circle at 50% -20%, rgba(217,130,98,.08), transparent 42%),
+      #111318;
+  }
+  .turn {
+    display: flex;
+    gap: 9px;
+    margin-bottom: 18px;
+  }
+  .turn.user { flex-direction:row-reverse; }
+  .turn-avatar {
+    width:25px;height:25px;flex:0 0 25px;display:grid;place-items:center;border-radius:8px;
+    border:1px solid #303640;background:#1d2128;color:#b7bfca;font-size:9px;
+  }
+  .turn.user .turn-avatar { background:#8c503b;border-color:#a46047;color:#fff3ee; }
+  .bubble {
+    max-width: 74%;
+    padding: 10px 12px;
+    border: 1px solid #2c323b;
+    border-radius: 11px;
+    background: #1b1f25;
+    color: #b6bdc8;
+    font-size: 10px;
+    line-height: 1.55;
+  }
+  .turn.user .bubble { background:#824b38;border-color:#9b5942;color:#fff5f0; }
+  .activity-card {
+    margin-top:8px;
+    padding:8px 9px;
+    border:1px solid #303640;
+    border-radius:8px;
+    background:#20242b;
+    color:#8993a2;
+  }
+  .activity-card b { color:#c4cad3; }
+  .status-ok { color:#78b18b; }
+  .composer-wrap {
+    padding: 10px max(20px, 8%) 16px;
+    border-top: 1px solid #252a32;
+    background: #14171c;
+  }
+  .composer {
+    padding: 10px;
+    border: 1px solid #3a414c;
+    border-radius: 14px;
+    background: #20242b;
+    box-shadow: 0 10px 32px rgba(0,0,0,.22);
+  }
+  .context-row { display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px; }
+  .context-tag {
+    display:flex;align-items:center;gap:5px;padding:4px 7px;border-radius:6px;
+    background:#2b313a;color:#d58c70;font-size:8px;
+  }
+  .context-tag.external { color:#e7b770;border:1px solid #5d4a2e;background:#2c2923; }
+  .prompt { min-height:36px;color:#9ca5b3;font-size:10px; }
+  .composer-foot { display:flex;justify-content:space-between;align-items:center;gap:8px; }
+  .composer-tools { display:flex;gap:5px;align-items:center; }
+  .tool-pill { padding:5px 7px;border-radius:6px;color:#8f99a7;background:#282e36;font-size:8px; }
+  .submit {
+    width:28px;height:28px;display:grid;place-items:center;border-radius:8px;
+    color:#1a0f0a;background:#df8a68;font-weight:900;
+  }
+  .detail-sheet {
+    position:absolute;
+    top:49px;
+    right:0;
+    bottom:0;
+    width:260px;
+    padding:14px;
+    border-left:1px solid #333944;
+    background:rgba(23,26,32,.98);
+    box-shadow:-20px 0 60px rgba(0,0,0,.28);
+  }
+  .detail-head { display:flex;justify-content:space-between;align-items:center;margin-bottom:12px; }
+  .detail-head strong { font-size:11px; }
+  .detail-tabs { display:flex;gap:4px;margin-bottom:10px; }
+  .detail-tab { padding:5px 7px;border-radius:6px;color:#778190;background:#20242b;font-size:8px; }
+  .detail-tab.active { color:#e9ebef;background:#303640; }
+  .detail-block { margin-bottom:9px;padding:9px;border:1px solid #303640;border-radius:8px;background:#1e2229; }
+  .detail-block h4 { margin:0 0 7px;color:#b8c0cb;font-size:9px; }
+  .detail-block p { margin:4px 0;color:#7d8796;font-size:8px;line-height:1.5; }
+  .annotation-grid {
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:10px;
+    margin-top:14px;
+  }
+  .annotation {
+    padding:11px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--surface);
+  }
+  .annotation b { display:block;margin-bottom:4px;color:var(--text);font-size:12px; }
+  .annotation span { color:var(--muted);font-size:11px;line-height:1.45; }
+  .approval-option {
+    margin-top:16px;
+  }
+  @media (max-width: 950px) {
+    .spec-shell { grid-template-columns: 190px minmax(0,1fr); }
+    .detail-sheet { width:220px; }
+    .annotation-grid { grid-template-columns:1fr 1fr; }
+  }
+</style>
+
+<h2>方案 A · Codex 工作台精化版</h2>
+<p class="subtitle">示意图同时展示了日常聊天界面和按需打开的 Run details 抽屉。</p>
+
+<div class="spec-shell">
+  <aside class="history">
+    <div class="history-head">
+      <div class="logo"><span class="logo-mark">N</span> NaturalCC</div>
+      <span class="icon-square">☰</span>
+    </div>
+    <div class="new-thread">＋ 新建会话</div>
+    <div class="history-search">⌕ 搜索会话</div>
+    <div class="history-list">
+      <div class="group">今天</div>
+      <div class="thread active"><span>重构 StudentManager</span><small>运行完成 · 4 个文件</small></div>
+      <div class="thread"><span>分析 Agent 记忆模块</span><small>等待审批</small></div>
+      <div class="thread"><span>修复 Web UI 布局</span><small>已暂停</small></div>
+      <div class="group">过去 7 天</div>
+      <div class="thread"><span>生成项目架构文档</span><small>运行完成</small></div>
+      <div class="thread"><span>检查 DeepSeek API</span><small>运行失败</small></div>
+    </div>
+    <div class="profile"><span class="avatar">曾</span><span>本地工作空间<br>设置与主题</span></div>
+  </aside>
+
+  <main class="workbench">
+    <header class="workbench-head">
+      <div class="title"><h3>重构 StudentManager</h3><p>会话已保存 · 刚刚更新</p></div>
+      <div class="head-actions">
+        <span class="head-chip">D:\...\naturalcc-ncc3 ▾</span>
+        <span class="head-chip">DeepSeek Chat ▾</span>
+        <span class="head-chip">•••</span>
+      </div>
+    </header>
+    <section class="budget-strip">
+      <div>
+        <div class="meter-top"><strong>LLM calls</strong><span>8 / 40</span></div>
+        <div class="meter-bar"><i style="width:20%"></i></div>
+      </div>
+      <div>
+        <div class="meter-top"><strong>Tool calls</strong><span>13 / 60</span></div>
+        <div class="meter-bar"><i style="width:22%"></i></div>
+      </div>
+      <span class="run-details">Run details　⌄</span>
+    </section>
+    <section class="conversation">
+      <div class="turn user">
+        <div class="turn-avatar">你</div>
+        <div class="bubble">请分析 StudentManager 的职责，并拆分过大的方法。</div>
+      </div>
+      <div class="turn">
+        <div class="turn-avatar">N</div>
+        <div class="bubble">
+          已定位主要职责和调用关系。我会先重构数据校验，再运行现有测试。
+          <div class="activity-card">
+            <b>本轮运行</b><br>
+            <span class="status-ok">✓</span> 读取 4 个文件　
+            <span class="status-ok">✓</span> 修改 3 个文件<br>
+            <span class="status-ok">✓</span> 测试通过 18 / 18　　查看变更 →
+          </div>
+        </div>
+      </div>
+      <div class="turn user">
+        <div class="turn-avatar">你</div>
+        <div class="bubble">继续优化异常处理，并保留原有公开接口。</div>
+      </div>
+    </section>
+    <footer class="composer-wrap">
+      <div class="composer">
+        <div class="context-row">
+          <span class="context-tag">@ StudentManager.java　×</span>
+          <span class="context-tag">@ src/service/　×</span>
+          <span class="context-tag external">外部读写 · D:\shared\config.py　×</span>
+        </div>
+        <div class="prompt">描述你希望 Agent 完成的任务，输入 @ 添加文件或粘贴绝对路径…</div>
+        <div class="composer-foot">
+          <div class="composer-tools">
+            <span class="tool-pill">＋ 上下文</span>
+            <span class="tool-pill">Agent ⌄</span>
+            <span class="tool-pill">预算 ⚙</span>
+          </div>
+          <span class="submit">↑</span>
+        </div>
+      </div>
+    </footer>
+
+    <aside class="detail-sheet">
+      <div class="detail-head"><strong>Run details</strong><span class="icon-square">×</span></div>
+      <div class="detail-tabs"><span class="detail-tab active">概览</span><span class="detail-tab">事件</span><span class="detail-tab">变更</span><span class="detail-tab">记忆</span></div>
+      <div class="detail-block">
+        <h4>当前运行 · completed</h4>
+        <p>模型调用 8 / 40</p>
+        <p>工具调用 13 / 60</p>
+        <p>用时 1m 42s · $0.0132</p>
+      </div>
+      <div class="detail-block">
+        <h4>验证</h4>
+        <p><span class="status-ok">✓</span> pytest · 18 passed</p>
+        <p><span class="status-ok">✓</span> 变更快照已保存</p>
+      </div>
+      <div class="detail-block">
+        <h4>会话记忆</h4>
+        <p>保留 StudentManager 的公开接口。</p>
+        <p>异常类型沿用当前项目约定。</p>
+      </div>
+    </aside>
+  </main>
+</div>
+
+<div class="annotation-grid">
+  <div class="annotation"><b>① 左侧只管理会话</b><span>新建、搜索、分组、状态提示；不再承载 workspace 和文件树。</span></div>
+  <div class="annotation"><b>② 顶部只放全局状态</b><span>会话标题、workspace、模型与预算进度，避免挤占聊天区域。</span></div>
+  <div class="annotation"><b>③ 输入区管理上下文</b><span>@ 搜索、绝对路径、外部读写标记、运行模式与预算入口。</span></div>
+  <div class="annotation"><b>④ 细节按需展开</b><span>事件、diff、审批、验证和记忆进入右侧抽屉，默认保持聊天聚焦。</span></div>
+</div>
+
+<div class="options approval-option">
+  <div class="option" data-choice="approve-workbench" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>确认此界面结构</h3>
+      <p>后续按该结构编写完整技术规格与实施计划。</p>
+    </div>
+  </div>
+</div>
