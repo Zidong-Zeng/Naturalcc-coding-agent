@@ -1,0 +1,4 @@
+task,score,latency
+read_file,92,15.2
+calculate,98,3.1
+search,88,20.5
