@@ -1,0 +1,369 @@
+<style>
+  .layout-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(280px, 1fr));
+    gap: 18px;
+    align-items: stretch;
+  }
+  .layout-card {
+    min-width: 0;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--surface);
+    transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+  }
+  .layout-card:hover {
+    transform: translateY(-2px);
+  }
+  .layout-card.selected {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+  .layout-card-head {
+    padding: 14px 15px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .layout-card-head h3 {
+    margin: 0 0 4px;
+  }
+  .layout-card-head p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.45;
+    opacity: .72;
+  }
+  .recommend {
+    display: inline-flex;
+    margin-bottom: 8px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--accent) 16%, transparent);
+    color: var(--accent);
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .app-frame {
+    height: 390px;
+    display: grid;
+    background: #111318;
+    color: #dfe4ed;
+    font-size: 9px;
+  }
+  .sidebar {
+    padding: 10px 8px;
+    background: #181b21;
+    border-right: 1px solid #2a2e37;
+  }
+  .brand {
+    font-weight: 760;
+    font-size: 11px;
+    margin: 2px 4px 10px;
+  }
+  .new-task {
+    padding: 7px 8px;
+    border: 1px solid #363b46;
+    border-radius: 7px;
+    background: #22262e;
+    margin-bottom: 10px;
+  }
+  .section-label {
+    margin: 11px 5px 5px;
+    color: #798292;
+    font-size: 7px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .history-row {
+    padding: 6px 7px;
+    margin-bottom: 3px;
+    border-radius: 6px;
+    color: #9ca5b5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .history-row.active {
+    background: #2a303a;
+    color: #fff;
+  }
+  .main {
+    min-width: 0;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+  }
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 8px 10px;
+    border-bottom: 1px solid #2a2e37;
+    background: #15181d;
+  }
+  .workspace-chip, .tiny-chip {
+    padding: 4px 6px;
+    border: 1px solid #363b46;
+    border-radius: 6px;
+    background: #20242b;
+    color: #aeb7c6;
+  }
+  .budget-row {
+    display: flex;
+    gap: 7px;
+    padding: 7px 10px;
+    border-bottom: 1px solid #252a32;
+  }
+  .budget {
+    flex: 1;
+    min-width: 0;
+  }
+  .budget span {
+    display: flex;
+    justify-content: space-between;
+    color: #8791a1;
+    margin-bottom: 3px;
+  }
+  .bar {
+    height: 4px;
+    border-radius: 99px;
+    background: #2d323c;
+    overflow: hidden;
+  }
+  .bar i {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: #d98262;
+  }
+  .chat {
+    padding: 14px 12px;
+    overflow: hidden;
+  }
+  .msg {
+    max-width: 82%;
+    margin-bottom: 9px;
+    padding: 8px 9px;
+    border-radius: 9px;
+    background: #1d2128;
+    border: 1px solid #2c313b;
+    color: #aeb7c6;
+    line-height: 1.45;
+  }
+  .msg.user {
+    margin-left: auto;
+    background: #8d4f3a;
+    border-color: #a45e46;
+    color: #fff5ef;
+  }
+  .composer {
+    margin: 8px 10px 10px;
+    padding: 8px;
+    border: 1px solid #3b414c;
+    border-radius: 11px;
+    background: #20242b;
+  }
+  .mentions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+  .mention {
+    padding: 3px 5px;
+    border-radius: 5px;
+    background: #303641;
+    color: #d58b6f;
+  }
+  .inputline {
+    color: #9ca5b5;
+    min-height: 25px;
+  }
+  .composer-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #778191;
+  }
+  .send {
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 6px;
+    background: #d98262;
+    color: #1a0f0a;
+  }
+  .inspector {
+    padding: 9px;
+    background: #181b21;
+    border-left: 1px solid #2a2e37;
+  }
+  .inspect-block {
+    margin-bottom: 8px;
+    padding: 7px;
+    border: 1px solid #2d323c;
+    border-radius: 7px;
+    background: #20242b;
+    color: #929cad;
+    line-height: 1.5;
+  }
+  .bottom-dock {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    padding: 8px 10px;
+    border-top: 1px solid #2a2e37;
+    background: #181b21;
+  }
+  .dock-item {
+    padding: 7px;
+    border-radius: 7px;
+    background: #22272f;
+    color: #939dad;
+  }
+  .focus-banner {
+    display: flex;
+    gap: 5px;
+    padding: 6px 10px;
+    border-bottom: 1px solid #252a32;
+    background: #171a20;
+  }
+  .card-foot {
+    padding: 12px 14px 14px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  @media (max-width: 1050px) {
+    .layout-grid { grid-template-columns: 1fr; }
+    .app-frame { height: 360px; }
+  }
+</style>
+
+<h2>选择 NaturalCC Agent 的主布局方向</h2>
+<p class="subtitle">三种方案都将左栏改为会话历史，并支持在输入框中用 @文件名、绝对路径和上下文标签添加文件。</p>
+
+<div class="layout-grid">
+  <div class="layout-card option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="layout-card-head">
+      <span class="recommend">推荐</span>
+      <h3>A · Codex 工作台</h3>
+      <p>左侧会话、中央聊天、顶部轻量预算，复杂运行细节按需展开。</p>
+    </div>
+    <div class="app-frame" style="grid-template-columns: 92px 1fr;">
+      <aside class="sidebar">
+        <div class="brand">NaturalCC</div>
+        <div class="new-task">＋ New task</div>
+        <div class="section-label">Today</div>
+        <div class="history-row active">重构 StudentManager</div>
+        <div class="history-row">分析记忆模块</div>
+        <div class="history-row">修复测试失败</div>
+        <div class="section-label">Earlier</div>
+        <div class="history-row">生成架构文档</div>
+      </aside>
+      <section class="main">
+        <div class="topbar">
+          <strong>重构 StudentManager</strong>
+          <span class="workspace-chip">naturalcc-ncc3 ▾</span>
+        </div>
+        <div class="budget-row">
+          <div class="budget"><span><b>LLM</b><b>8 / 40</b></span><div class="bar"><i style="width:20%"></i></div></div>
+          <div class="budget"><span><b>Tools</b><b>13 / 60</b></span><div class="bar"><i style="width:22%"></i></div></div>
+          <span class="tiny-chip">Run details ▾</span>
+        </div>
+        <div class="chat">
+          <div class="msg user">请分析这个类并完成重构。</div>
+          <div class="msg">我先读取目标文件和相关调用，再给出修改计划。</div>
+          <div class="msg">✓ 已读取 4 个文件　✓ 测试通过 18/18</div>
+        </div>
+        <div class="composer">
+          <div class="mentions"><span class="mention">@StudentManager.java</span><span class="mention">@src/service/</span></div>
+          <div class="inputline">继续优化异常处理…</div>
+          <div class="composer-actions"><span>＋ Context　Agent ▾　Budget ⚙</span><span class="send">↑</span></div>
+        </div>
+      </section>
+    </div>
+    <div class="card-foot">聊天最聚焦，日常使用最轻。事件、diff、审批和记忆放入可展开的 Run details 抽屉。</div>
+  </div>
+
+  <div class="layout-card option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="layout-card-head">
+      <h3>B · 三栏工程控制台</h3>
+      <p>会话、聊天和运行检查器同时常驻，适合频繁观察工具调用。</p>
+    </div>
+    <div class="app-frame" style="grid-template-columns: 78px 1fr 94px;">
+      <aside class="sidebar">
+        <div class="brand">NaturalCC</div>
+        <div class="new-task">＋ New</div>
+        <div class="section-label">Recent</div>
+        <div class="history-row active">重构管理类</div>
+        <div class="history-row">记忆模块</div>
+        <div class="history-row">测试修复</div>
+      </aside>
+      <section class="main">
+        <div class="topbar"><strong>重构管理类</strong><span class="workspace-chip">workspace ▾</span></div>
+        <div class="budget-row">
+          <div class="budget"><span><b>LLM</b><b>20%</b></span><div class="bar"><i style="width:20%"></i></div></div>
+          <div class="budget"><span><b>Tools</b><b>22%</b></span><div class="bar"><i style="width:22%"></i></div></div>
+        </div>
+        <div class="chat">
+          <div class="msg user">@StudentManager.java 完成重构</div>
+          <div class="msg">正在检查依赖关系和测试覆盖。</div>
+          <div class="msg">已提出写入操作，等待批准。</div>
+        </div>
+        <div class="composer">
+          <div class="mentions"><span class="mention">@StudentManager.java</span></div>
+          <div class="inputline">输入下一条指令…</div>
+          <div class="composer-actions"><span>＋　Budget ⚙</span><span class="send">↑</span></div>
+        </div>
+      </section>
+      <aside class="inspector">
+        <div class="section-label">Run</div>
+        <div class="inspect-block"><b>Running</b><br>12 events<br>4 files</div>
+        <div class="section-label">Tools</div>
+        <div class="inspect-block">read ✓<br>search ✓<br>apply_patch !</div>
+        <div class="section-label">Memory</div>
+        <div class="inspect-block">2 session notes<br>1 candidate</div>
+      </aside>
+    </div>
+    <div class="card-foot">可观测性最强，但中等宽度屏幕容易拥挤，聊天区和代码输出的可读宽度会下降。</div>
+  </div>
+
+  <div class="layout-card option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="layout-card-head">
+      <h3>C · 专注聊天 + 底部控制坞</h3>
+      <p>运行状态固定在底部，用分层控制坞承载预算、工具和文件变化。</p>
+    </div>
+    <div class="app-frame" style="grid-template-columns: 82px 1fr;">
+      <aside class="sidebar">
+        <div class="brand">NaturalCC</div>
+        <div class="new-task">＋ New task</div>
+        <div class="section-label">Today</div>
+        <div class="history-row active">重构 StudentManager</div>
+        <div class="history-row">分析 Memory</div>
+        <div class="history-row">修复 UI</div>
+      </aside>
+      <section class="main" style="grid-template-rows:auto auto 1fr auto auto;">
+        <div class="topbar"><strong>重构 StudentManager</strong><span class="workspace-chip">naturalcc ▾</span></div>
+        <div class="focus-banner"><span class="tiny-chip">@StudentManager.java</span><span class="tiny-chip">@service/</span></div>
+        <div class="chat">
+          <div class="msg user">完成代码重构并运行测试。</div>
+          <div class="msg">分析完成，下一步将修改 3 个文件。</div>
+        </div>
+        <div class="composer">
+          <div class="inputline">继续输入…</div>
+          <div class="composer-actions"><span>＋ Context　Agent ▾</span><span class="send">↑</span></div>
+        </div>
+        <div class="bottom-dock">
+          <div class="dock-item">LLM<br><b>8 / 40</b></div>
+          <div class="dock-item">Tools<br><b>13 / 60</b></div>
+          <div class="dock-item">Changes<br><b>4 files</b></div>
+        </div>
+      </section>
+    </div>
+    <div class="card-foot">底部状态很稳定，适合持续监控；但会压缩垂直聊天空间，移动端还需改造成抽屉。</div>
+  </div>
+</div>
