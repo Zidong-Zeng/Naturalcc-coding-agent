@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>B1 Debug</title></head>
+<body style="font-family:monospace;padding:20px;font-size:14px">
+<h2>后端连通性测试</h2>
+<div id="log"></div>
+<script>
+const log = (m) => document.getElementById('log').innerHTML += m + '<br>';
+(async () => {
+  try {
+    log('1. 尝试 GET /health ...');
+    const r = await fetch('/health');
+    log('   → status=' + r.status);
+    if (!r.ok) { log('   ❌ HTTP ' + r.status + ' — 后端未响应'); return; }
+    const h = await r.json();
+    log('   ✅ ok=' + h.ok);
+    
+    log('2. 尝试 POST /api/sessions ...');
+    const s = await (await fetch('/api/sessions', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({user_input:'test', repl_mode:'mock'})
+    })).json();
+    log('   ✅ sid=' + s.session_id);
+    
+    log('3. 尝试 POST /messages ...');
+    const m = await (await fetch('/api/sessions/' + s.session_id + '/messages', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({user_input:'什么是agent'})
+    })).json();
+    log('   ✅ task_id=' + m.task_id);
+    
+    log('4. 轮询 /tasks ...');
+    for (let i = 0; i < 15; i++) {
+      await new Promise(r => setTimeout(r, 1500));
+      const t = await (await fetch('/api/tasks/' + m.task_id)).json();
+      log('   [' + (i+1) + '] status=' + t.status);
+      if (t.status === 'completed') {
+        log('   ✅ 回答: ' + (t.result?.final_answer || '').slice(0, 60));
+        break;
+      }
+      if (t.status === 'error') { log('   ❌ ' + t.error); break; }
+    }
+    log('<br><b>后端全部正常。如果聊天页不回话，问题在 JS 或代理。</b>');
+  } catch (e) {
+    log('❌ 异常: ' + e.message);
+    log('<br><b>可能原因：</b>浏览器走了系统代理(Firefox/Chrome 代理设置) 或 后端未启动');
+    log('尝试: <code>curl --noproxy \'*\' http://localhost:8000/health</code>');
+  }
+})();
+</script>
+</body></html>
