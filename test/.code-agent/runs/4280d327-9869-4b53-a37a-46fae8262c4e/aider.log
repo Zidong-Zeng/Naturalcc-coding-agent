@@ -1,0 +1,2 @@
+
+❌ [系统错误] 发生异常: libclang not found. Checked under environment: D:\桌面2\科研训练\HUST时期\naturalcc-ncc3\code_agent\.venv. Install the system libclang package (e.g. 'sudo apt install libclang1' or 'brew install libclang'), or set LIBCLANG_PATH to the full library path.
