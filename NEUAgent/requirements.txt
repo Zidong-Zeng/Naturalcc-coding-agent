@@ -1,0 +1,20 @@
+# Tested with Python 3.10 in /data/shixun/Anaconda3/envs/agent.
+# Torch uses the CUDA 11.8 wheel build used by the server validation.
+--extra-index-url https://download.pytorch.org/whl/cu118
+
+PyYAML==6.0.3
+torch==2.7.1+cu118
+transformers==5.12.1
+accelerate==1.14.0
+sentencepiece==0.2.1
+safetensors==0.8.0
+tokenizers==0.22.2
+huggingface_hub==1.20.1
+filelock==3.29.4
+fsspec==2026.2.0
+Jinja2==3.1.6
+numpy==2.2.6
+packaging==26.2
+regex==2026.5.9
+requests==2.34.2
+tqdm==4.68.3
