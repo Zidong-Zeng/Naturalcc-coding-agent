@@ -1,0 +1,11 @@
+{
+  "execution_mode": "integrated",
+  "conversation_id": "cli_baseline_001",
+  "user_input": "计算 (100 + 200) * 3 的结果是多少？",
+  "system_prompt_path": "../prompts/advanced/tool_master.txt",
+  "toolset": "basic_tools",
+  "max_turns": 3,
+  "save_memory": "none",
+  "selected_memory_ids": [],
+  "use_global_memory": false
+}
