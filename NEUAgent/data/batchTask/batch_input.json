@@ -1,0 +1,24 @@
+{
+  "description": "批量任务示例 — 3 个独立问题",
+  "shared_defaults": {
+    "toolset": "basic_tools",
+    "max_turns": 3,
+    "repl_mode": "mock",
+    "model_name": null,
+    "selected_memory_ids": []
+  },
+  "tasks": [
+    {
+      "task_id": "task_01",
+      "user_input": "计算 (23 * 17 + 9) 的结果是多少？"
+    },
+    {
+      "task_id": "task_02",
+      "user_input": "读取 data/docs/agent_intro.txt 的前 500 个字符，告诉我它的主题。"
+    },
+    {
+      "task_id": "task_03",
+      "user_input": "在 data/docs 目录下搜索包含 Agent 关键词的文件。"
+    }
+  ]
+}
