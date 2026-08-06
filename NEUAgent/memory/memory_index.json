@@ -1,0 +1,22 @@
+{
+  "mem_course_001": {
+    "memory_id": "mem_course_001",
+    "memory_type": "global",
+    "title": "Agent 基础概念",
+    "summary": "Agent 系统由模型、工具、记忆和执行循环四个核心部分组成，它们协同工作完成复杂任务。",
+    "path": "global/mem_course_001.md",
+    "conversation_id": null,
+    "created_at": "2026-06-20T00:00:00+08:00",
+    "updated_at": "2026-07-07T10:03:55+08:00"
+  },
+  "mem_conversation_38027b933338": {
+    "memory_id": "mem_conversation_38027b933338",
+    "memory_type": "conversation",
+    "title": "Conversation 38027b933338",
+    "summary": "多谢",
+    "path": "conversations/38027b933338.md",
+    "conversation_id": "38027b933338",
+    "created_at": "2026-07-12T11:30:15+08:00",
+    "updated_at": "2026-07-12T11:33:02+08:00"
+  }
+}
